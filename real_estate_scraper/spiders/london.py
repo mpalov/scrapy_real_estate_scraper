@@ -1,5 +1,3 @@
-# AFTER THE UPDATE FOR HEALTH CHECK
-
 from typing import Any
 import scrapy
 from scrapy.http import Response
@@ -103,66 +101,3 @@ class LondonSpider(scrapy.Spider):
         loader.add_value("listing_url", response.url)
 
         yield loader.load_item()
-
-# MAIN SPIDER
-
-# from typing import Any
-# import scrapy
-# from scrapy.http import Response
-# from scrapy.loader import ItemLoader
-# from ..items import PropertyItem
-#
-#
-# class LondonSpider(scrapy.Spider):
-#     name = 'london'
-#     start_urls = [
-#         'https://www.rightmove.co.uk/property-for-sale/find.html?locationIdentifier=REGION%5E87490&index=0&propertyTypes=detached%2Csemi-detached%2Cterraced&includeSSTC=false&mustHave=&dontShow=&furnishTypes=&keywords='
-#     ]
-#
-#     def parse(self, response: Response, **kwargs: Any):
-#         if response.status == 200:
-#             self.log('Request was successful!')
-#
-#             base_url = 'https://www.rightmove.co.uk'
-#             property_links = response.css('a.propertyCard-link::attr(href)').getall()
-#
-#             # Get the current index and calculate the page number
-#             current_index = int(response.url.split("index=")[1].split("&")[0])
-#             current_page = (current_index // 24) + 1  # Calculate page number based on index
-#
-#             # If there are property links, continue parsing
-#             if property_links:
-#                 for link in property_links:
-#                     full_url = base_url + link
-#                     yield response.follow(full_url, self.parse_property, meta={"page": current_page})
-#
-#                 # Pagination: Update the index for the next page
-#                 next_index = current_index + 24
-#                 next_page_url = response.url.replace(f'index={current_index}', f'index={next_index}')
-#                 self.log(f"Next page URL: {next_page_url}")
-#
-#                 # Continue to the next page if there are property links on the next page
-#                 yield scrapy.Request(next_page_url, callback=self.parse)
-#             else:
-#                 self.log("No properties found, stopping the spider.")
-#         else:
-#             self.log(f"Request failed with status: {response.status}")
-#
-#     def parse_property(self, response: Response):
-#         """Extract data for individual property pages."""
-#         current_city = 'London'
-#         loader = ItemLoader(item=PropertyItem(), response=response)
-#
-#         # Extract data fields
-#         loader.add_css("price", 'div._1gfnqJ3Vtd1z40MlC0MzXu span::text')
-#         loader.add_value("city", current_city)
-#         address = response.css('div._1KCWj_-6e8-7_oJv_prX0H > div > h1::text').get(default='N/A')
-#         loader.add_value("address", address)
-#         loader.add_css("property_size", '#info-reel > div:nth-child(4) > dd > span > p._1hV1kqpVceE9m-QrX_hWDN::text')
-#         loader.add_css("property_type", 'div:nth-child(1) > dd > span > p::text')
-#         amenities = response.css(
-#             "#main > div > div.WJG_W7faYk84nW-6sCBVi > div > article[data-testid='primary-layout'] > ul > li::text").getall()
-#         loader.add_value("amenities", amenities)
-#         loader.add_value("listing_url", response.url)
-#
-#         yield loader.load_item()

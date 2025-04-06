@@ -46,6 +46,6 @@ def run_health_checks():
             success = False
 
     if success:
-        send_notification("✅ Health Check Passed", "All spiders passed the health check.")
+        send_notification("Health Check Passed", "All spiders passed the health check.")
     else:
-        send_notification("❌ Health Check Failed", "One or more spiders failed the health check.")
+        send_notification("Health Check Failed", "One or more spiders failed the health check.")

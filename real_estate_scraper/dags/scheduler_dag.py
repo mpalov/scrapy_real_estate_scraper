@@ -4,7 +4,6 @@ from airflow import DAG
 from airflow.operators.python import PythonOperator
 from datetime import datetime, timedelta
 
-# ✅ Correct path to your Scrapy code
 sys.path.append(os.path.abspath('/opt/airflow/app'))
 
 from health_check_dag import run_health_checks

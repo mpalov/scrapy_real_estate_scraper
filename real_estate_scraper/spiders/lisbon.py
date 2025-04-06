@@ -1,5 +1,3 @@
-# SPIDER AFTER THE HEALTH CHECK UPDATE
-
 from typing import Any
 import scrapy
 from scrapy.http import Response
@@ -106,67 +104,3 @@ class LisbonSpider(scrapy.Spider):
         loader.add_value("listing_url", response.url)
 
         yield loader.load_item()
-
-# MAIN SPIDER
-
-# from typing import Any
-# import scrapy
-# from scrapy.http import Response
-# from scrapy.loader import ItemLoader
-# from ..items import PropertyItem
-#
-#
-# class LisbonSpider(scrapy.Spider):
-#     name = "lisbon"
-#     start_urls = ["https://www.properstar.com/portugal/lisbon/buy/apartment-house"]
-#     crawled_count = 0  # Counter to track the number of scraped properties
-#     max_results = 1300  # Stop when reaching this limit
-#
-#     def parse(self, response: Response, **kwargs: Any):
-#         if response.status == 200:
-#             self.log(f'Request was successful! Crawled so far: {self.crawled_count}/{self.max_results}')
-#
-#             base_url = "https://www.properstar.com"
-#             property_links = response.css('div.item-data > a::attr(href)').getall()
-#
-#             for link in property_links:
-#                 if self.crawled_count >= self.max_results:
-#                     self.log("Reached max results, stopping spider.")
-#                     self.crawler.engine.close_spider(self, "Max results reached")
-#                     return
-#
-#                 full_url = base_url + link
-#                 self.crawled_count += 1
-#                 yield response.follow(full_url, self.parse_property)
-#
-#             # Handle pagination
-#             next_page = response.css('ul > li.page-link.next > a::attr(href)').get()
-#             if next_page and self.crawled_count < self.max_results:
-#                 next_page_url = base_url + next_page
-#
-#                 self.log(f"Next page URL: {next_page_url}")
-#                 yield scrapy.Request(url=next_page_url, callback=self.parse)
-#             else:
-#                 self.log("No more pages or max limit reached, stopping.")
-#
-#         else:
-#             self.log(f"Request failed with status: {response.status}")
-#
-#     def parse_property(self, response: Response):
-#         """Extract data for individual property pages."""
-#         current_city = 'Lisbon'
-#         loader = ItemLoader(item=PropertyItem(), response=response)
-#
-#         # Extract data fields
-#         loader.add_css("price", '.listing-price-main > span::text')
-#         loader.add_value("city", current_city)
-#         address = response.css('.address > span::text').get(default='N/A')
-#         loader.add_value('address', address)
-#         loader.add_css("property_size", 'div:nth-child(4) > div > div > span.property-value::text')
-#         loader.add_css("property_type", 'ol > li.active.breadcrumb-item > a::text')
-#         amenities = response.css(
-#             "#app section.listing-section.amenities-section div.feature-list div.feature-item div.feature-content span.property-value::text").getall()
-#         loader.add_value("amenities", amenities)
-#         loader.add_value("listing_url", response.url)
-#
-#         yield loader.load_item()

@@ -16,8 +16,8 @@ services:
       - AIRFLOW__WEBSERVER__EXPOSE_CONFIG=True
       - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres/airflow
     volumes:
-      - ${DAGS_PATH}:/opt/airflow/dags
-      - ${APP_PATH}:/opt/airflow/app
+      - "C:/Users/Mehmed Palov/PycharmProjects/pythonProject/real_estate_scraper/real_estate_scraper/dags:/opt/airflow/dags"
+      - "C:/Users/Mehmed Palov/PycharmProjects/pythonProject/real_estate_scraper/real_estate_scraper:/opt/airflow/app"
     ports:
       - "8080:8080"
     command: webserver
@@ -33,8 +33,8 @@ services:
       - AIRFLOW__CORE__EXECUTOR=LocalExecutor
       - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres/airflow
     volumes:
-      - ${DAGS_PATH}:/opt/airflow/dags
-      - ${APP_PATH}:/opt/airflow/app
+      - "C:/Users/Mehmed Palov/PycharmProjects/pythonProject/real_estate_scraper/real_estate_scraper/dags:/opt/airflow/dags"
+      - "C:/Users/Mehmed Palov/PycharmProjects/pythonProject/real_estate_scraper/real_estate_scraper:/opt/airflow/app"
     command: scheduler
 
   airflow-init:
@@ -49,8 +49,8 @@ services:
       - AIRFLOW__CORE__EXECUTOR=LocalExecutor
       - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres/airflow
     volumes:
-      - ${DAGS_PATH}:/opt/airflow/dags
-      - ${APP_PATH}:/opt/airflow/app
+      - "C:/Users/Mehmed Palov/PycharmProjects/pythonProject/real_estate_scraper/real_estate_scraper/dags:/opt/airflow/dags"
+      - "C:/Users/Mehmed Palov/PycharmProjects/pythonProject/real_estate_scraper/real_estate_scraper:/opt/airflow/app"
 
   postgres:
     image: postgres:13
